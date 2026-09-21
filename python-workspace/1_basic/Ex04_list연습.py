@@ -6,17 +6,22 @@ print(alerts)
 
 
 # (1) `'SQL Injection 탐지'`, `'Brute Force 공격 탐지'`를 한꺼번에 리스트 마지막에 추가하세요.
+alerts.extend(['SQL Injection 탐지', 'Brute Force 공격 탐지'])
 
 # (2) `alerts` 리스트의 마지막 요소를 제거하세요.
+alerts.pop()
 
 # (3) `'SQL Injection 탐지'`, `'Brute Force 공격 탐지'`를 다시 한꺼번에 추가하세요.
+alerts.extend(['SQL Injection 탐지', 'Brute Force 공격 탐지'])
 
 # (4) `'SQL Injection 탐지'` 요소를 리스트에서 제거하세요.
+alerts.remove('SQL Injection 탐지')
 
 # (5) `alerts` 리스트의 네 번째 위치(인덱스 3)에 `'랜섬웨어 탐지'`를 추가하세요.
+alerts.insert(3, '랜섬웨어 탐지')
 
 # (6) `alerts` 리스트에서 3번째 요소부터 5번째 요소까지(인덱스 3~5)를 추출하여 출력하세요.
-
+print(alerts[3:6])
 
 
 

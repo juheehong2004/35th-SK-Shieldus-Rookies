@@ -13,8 +13,7 @@ devices = {
 }
 
 # 여기에 코드를 작성하세요.
-
-
+print(devices.get('firewall'))
 
 
 
@@ -38,7 +37,7 @@ network = {
 }
 
 # 여기에 코드를 작성하세요.
-
+print(network.get('firewall').get('ip'))
 
 
 
@@ -70,7 +69,8 @@ alerts = {
 }
 
 # 여기에 코드를 작성하세요.
-
+print(alerts.get('10.10.10.20').get('attack'))
+print(alerts.get('10.10.10.20').get('severity'))
 
 
 
@@ -94,7 +94,7 @@ security_logs = {
 username = "hacker"
 
 # 여기에 코드를 작성하세요.
-
+print(security_logs.get(username, '사용자 정보 없음'))
 
 
 
@@ -115,6 +115,6 @@ servers = {
 server_name = "web03"
 
 # 여기에 코드를 작성하세요.
-
+print(servers.get(server_name, '등록되지 않은 서버'))
 
 
