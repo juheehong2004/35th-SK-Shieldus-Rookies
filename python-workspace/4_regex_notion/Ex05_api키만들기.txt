@@ -1,0 +1,40 @@
+ [ API 키 받는 방법 ]
+
+1. KOBIS Open API 사이트 접속
+
+    KOBIS Open API 사이트로 이동
+
+    https://www.kobis.or.kr/kobisopenapi/homepg/main/main.do
+
+    사이트에서 회원가입을 합니다.
+
+    가입한 이메일에서 [인증처리] 링크로 로그인해야 한다.
+
+
+2. 키 발급/관리 메뉴 선택
+
+    로그인 후 키 발급/관리 메뉴에서 API 키를 신청하고 발급받습니다.
+
+    발급받은 키는 다음과 같은 형태로 사용합니다.
+        목적 : 교육
+        url : http://www.example.com
+
+    MOVIE_API_KEY=발급받은_API_키
+
+3. .env 파일 설정
+
+    프로젝트 폴더에 .env 파일을 만듭니다.
+
+    MOVIE_API_KEY=여기에_발급받은_API_키
+
+    ⚠️ API 키를 Python 코드에 직접 작성하지 않고 .env 파일에 저장하는 방식입니다.
+
+4. 필요한 라이브러리 설치
+
+    > pip install requests python-dotenv
+
+    또는 만들어드린 requirements.txt를 사용하면: 
+    > pip install -r requirements.txt
+
+    이때까지 설치된 라이브러리를 requirements.txt 파일로 만들려면:    
+    > pip freeze > requirements.txt

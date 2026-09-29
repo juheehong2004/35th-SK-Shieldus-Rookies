@@ -24,16 +24,21 @@ print()
 
 ## 7-3. else와 finally
 
-try:
-    print("데이터베이스 연결 시도...")
-except Exception as e: # 예외 발생시 실행  
-    print("연결 실패!")
-else: # 예외가 없을 때만 실행
-    print("연결 성공 - 감사 쿼리를 실행합니다")  
-finally: # 예외발생 여부(성공/실패 여부)와 무관하게 항상 실행(앞에서 return 수행되도 finally는 반드시 실행됨)
-    print("연결 시도 로그를 서버에 기록하고 종료합니다") # ex) 네트워크 닫을때 등
+def test():
+    try:
+        10/0
+        print("데이터베이스 연결 시도...")
+        return
+    except Exception as e: # 예외 발생시 실행  
+        print("연결 실패!")
+    else: # 예외가 없을 때만 실행
+        print("연결 성공 - 감사 쿼리를 실행합니다")  
+    finally: # 예외발생 여부(성공/실패 여부)와 무관하게 항상 실행(앞에서 return 수행되도 finally는 반드시 실행됨) => close 문 작성!!
+        print("연결 시도 로그를 서버에 기록하고 종료합니다") # ex) 네트워크 닫을때 등
 
-print("프로그램 정상 종료")
+    print("프로그램 정상 종료")
+
+test()
 
 
 print()

@@ -27,6 +27,20 @@ cve_inventory = {
     "CVE-2026-11450": {"host": "prd-api-04", "cvss": 9.4, "patched": True},
 }
 
-for cve in cve_inventory:
-    cvss_score = cve.value()["cvss"]
-    
+for cve_value in cve_inventory.values():
+    cvss_score = cve_value.get("cvss")
+    if cvss_score <= 10.0 and cvss_score >= 9.0:
+        cve_value["danger_grade"] = "CRITICAL"
+    elif cvss_score <= 8.9 and cvss_score >= 7.0:
+        cve_value["danger_grade"] = "HIGH"
+    elif cvss_score <= 6.9 and cvss_score >= 4.0:
+        cve_value["danger_grade"] = "MEDIUM"
+    elif cvss_score <= 3.9 and cvss_score >= 0.1:
+        cve_value["danger_grade"] = "LOW"
+
+
+for cve_key in cve_inventory:
+    cve_value = cve_inventory[cve_key]
+    if cve_value["patched"] == "False" & cve_value["danger_grade"] == "CRITICAL":
+        print(f'[긴급] {cve_key} 치명적 위험 발견')
+        break
