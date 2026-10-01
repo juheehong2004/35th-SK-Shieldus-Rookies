@@ -1,0 +1,9 @@
+<!-- templates/index.html -->
+<body>
+    <h1>보안 이벤트 알림</h1>
+    <ul>
+        {% for alert in alerts %}
+            <li>{{ alert }}</li>
+        {% endfor %}
+    </ul>
+</body>

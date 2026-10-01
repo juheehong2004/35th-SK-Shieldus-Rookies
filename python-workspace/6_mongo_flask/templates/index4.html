@@ -1,0 +1,18 @@
+<!-- templates/index.html -->
+<body>
+    <h1>보안 이벤트 목록</h1>
+    <ul>
+        {% for event in events %}
+            <li>
+                {{ event }}
+                <a href="/events/delete/{{ loop.index0 }}">[삭제]</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>새 이벤트 등록</h3>
+    <form method="post" action="/events">
+        <input type="text" name="event" placeholder="이벤트 내용 입력" required>
+        <button type="submit">등록</button>
+    </form>
+</body>

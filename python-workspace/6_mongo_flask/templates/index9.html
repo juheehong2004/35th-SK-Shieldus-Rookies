@@ -1,0 +1,14 @@
+<!-- templates/index.html -->
+<body>
+    <h1>실시간 보안 뉴스</h1>
+    <ul>
+        {% for news in news_list %}
+            <li>
+                {% if news.is_critical %}
+                    <b style="color:red;">[긴급]</b>
+                {% endif %}
+                <a href="{{ news.link }}" target="_blank">{{ news.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>

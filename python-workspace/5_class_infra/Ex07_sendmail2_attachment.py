@@ -15,7 +15,7 @@ def attach_upload_files(message):
     """upload 폴더의 파일을 첨부합니다."""
 
     # [추가] 전송할 첨부 파일 경로 목록입니다.
-    upload_files = ["upload/security_report.txt","download/security_report2.txt"]
+    upload_files = ["upload/security_report.txt","download/security_report.txt"]
 
     for file_path in upload_files:
         file_path = Path(file_path)  # 문자열 경로를 Path 객체로 변환

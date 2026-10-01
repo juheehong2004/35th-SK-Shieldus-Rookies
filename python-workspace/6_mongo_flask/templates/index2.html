@@ -1,0 +1,9 @@
+<!-- templates/index.html -->
+<body>
+    <h1>{{server_name}} 서버의 차단한 아이피주소</h1>
+    <ul>
+        {% for ip in blocked_ips %}
+            <li>{{ ip }}</li>
+        {% endfor %}
+    </ul>
+</body>
