@@ -31,7 +31,7 @@ if LOG_FILE.exists(): # 현재 폴더에 원본 로그 파일이 존재하는지
     # archive 폴더가 없으면 생성
     ARCHIVE_DIR.mkdir(exist_ok=True)
     # 원본 로그 파일을 archive 폴더로 이동
-    shutil.move(str(LOG_FILE), str(ARCHIVE_DIR / LOG_FILE.name))
+    shutil.move(str(LOG_FILE), str(ARCHIVE_DIR / LOG_FILE.name)) 
     print(f"로그 아카이빙 완료: {LOG_FILE.name} 파일을 {ARCHIVE_DIR.name} 폴더로 이동했습니다.")
 
 # 3. 파싱 & 필터링
@@ -53,22 +53,25 @@ def is_safe_port(port):
 
 
 log_path = ARCHIVE_DIR / LOG_FILE.name
-ports = []
+ports = [] # 로그에서 추출한 열린 포트 번호(int) 목록
 
+# archive 폴더 안의 로그 파일 읽기
 if log_path.exists():
+    # with open - 블록 끝나면 파일이 자동으로 닫힘
     with open(log_path, "r", encoding="utf-8") as file:        
-        for line in file:
-            if line.startswith("Port: "):
+        for line in file: # 로그를 한 줄 단위로 처리
+            if line.startswith("Port: "): # "Port: "로 시작하는 줄만 대상
                 words = line.split(" ")
+                # 인덱스 에러 방지: 항목이 2개 이상일 때만 words[1]에 접근
                 if len(words) >= 2:
-                    ports.append(int(words[1]))
+                    ports.append(int(words[1])) # 포트 번호를 정수로 변환
 
-
+# 필터링 - 화이트리스트에 없는 위험 포트만 남김
 unsafe_ports = list(filter(lambda port: not is_safe_port(port), ports))
 
 print(f"안전 포트 미등록 포트: {unsafe_ports}")
 
-# 파일 검색 확인
+# 파일 검색 확인 - glob으로 archive 폴더 내 .log 파일 목록을 출력해 이동 결과 확인
 log_files = glob.glob(str(ARCHIVE_DIR / "*.log"))
 print("archive 폴더 내 .log 파일 목록")
 for path in log_files:
@@ -76,13 +79,13 @@ for path in log_files:
 
 
 # 4. 파일 저장 (다중 포맷 리포팅)
-CSV_FILE = Path("vulnerable_ports.csv")
-JSON_FILE = Path("vulnerability_alert.json")
+CSV_FILE = Path("vulnerable_ports.csv") # 엑셀 취약점 리포트용
+JSON_FILE = Path("vulnerability_alert.json") # 시스템 연동 알림용
 
 # CSV 파일에 저장 (헤더: Detected_Port, Severity / 값은 "Critical" 고정)
 with open(CSV_FILE, "w", newline="", encoding="utf-8") as file:
     writer = csv.DictWriter(file, fieldnames=["Detected_Port", "Severity"])
-    writer.writeheader()
+    writer.writeheader() # 헤더 행 작성
     for port in unsafe_ports:
         writer.writerow({"Detected_Port": port, "Severity": "Critical"})
 print(f"CSV 파일로 저장 완료: {CSV_FILE}")
@@ -92,11 +95,11 @@ print(f"CSV 파일로 저장 완료: {CSV_FILE}")
 alert_data = {
     "Vulnerable_Ports": unsafe_ports,
     "Severity": "Critical",
-    "Assigned_Engineer": None
+    "Assigned_Engineer": None # JSON에서는 null이 됨
 }
  
 with open(JSON_FILE, "w", encoding="utf-8") as file:
-    json.dump(alert_data, file, indent=4)
+    json.dump(alert_data, file, indent=4) # indent=4: 들여쓰기 4칸 적용
 print(f"JSON 파일로 저장 완료: {JSON_FILE}")
 
 # JSON 파일에서 None이 null로 저장되었는지 확인
