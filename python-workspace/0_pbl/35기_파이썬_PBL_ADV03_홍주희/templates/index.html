@@ -1,0 +1,71 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 수집 주기(10분)에 맞춰 화면도 10분마다 자동 새로고침 -->
+    <meta http-equiv="refresh" content="600">
+    <title>KISA 보안공지 대시보드</title>
+    <style>
+        body {
+            font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 16px;
+            color: #222;
+        }
+        h1 { margin-bottom: 4px; }
+        .sub { color: #666; margin-top: 0; }
+        .error {
+            background: #fff3cd;
+            border: 1px solid #ffe08a;
+            padding: 10px 14px;
+            border-radius: 6px;
+        }
+        ul { list-style: none; padding: 0; }
+        li.advisory {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        /* 감시 대상 제품 공지 : 빨간색 강조 */
+        li.watched {
+            background: #fff0f0;
+            border-left: 4px solid #d93025;
+        }
+        li.watched a { color: #d93025; font-weight: bold; }
+        .badge { color: #d93025; font-weight: bold; margin-right: 6px; }
+        .date { color: #888; font-size: 0.85em; margin-left: 8px; }
+        a { text-decoration: none; color: #1a0dab; }
+        a:hover { text-decoration: underline; }
+        .empty { color: #888; padding: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>KISA 보안공지 대시보드</h1>
+    <p class="sub">
+        보호나라 보안공지 최신 {{ advisories|length }}건 · 빨간색 항목은 사내 인프라 제품 관련 공지입니다.
+    </p>
+
+    {# MongoDB 조회에 실패했을 때만 안내 문구를 출력 #}
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <ul>
+        {% for advisory in advisories %}
+            <!-- is_watched 가 True 인 공지만 조건부로 강조 -->
+            <li class="advisory{% if advisory.is_watched %} watched{% endif %}">
+                {% if advisory.is_watched %}
+                    <span class="badge">[주요 제품]</span>
+                {% endif %}
+                <a href="{{ advisory.link }}" target="_blank" rel="noopener noreferrer">{{ advisory.title }}</a>
+                <span class="date">{{ advisory.published }}</span>
+            </li>
+        {% else %}
+            {# for 의 else : 저장된 공지가 하나도 없을 때만 출력 #}
+            <li class="empty">저장된 공지가 없습니다. collector.py 를 먼저 실행해 주세요.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
